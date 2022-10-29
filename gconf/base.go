@@ -1,15 +1,15 @@
 package gconf
 
 type AppConf struct {
-	Kafkas   []*GKafkaYaml    `yaml:"kafka"`
-	Dbs      []*GDbYaml       `yaml:"db"`
-	Caches   []*GConfYaml     `yaml:"cache"`
-	Memcache []*GMemcacheYaml `yaml:"memcache"`
+	Mqs    []*GMqYaml   `yaml:"mq"`
+	Dbs    []*GDbYaml   `yaml:"db"`
+	Caches []*GConfYaml `yaml:"cache"`
 }
-type GKafkaYaml struct {
-	Name  string `yaml:"name"`
-	Hosts string `yaml:"hosts"`
-	Topic string `yaml:"topic"`
+type GMqYaml struct {
+	Name   string `yaml:"name"`
+	Driver string `yaml:"driver"`
+	Hosts  string `yaml:"hosts"`
+	Topic  string `yaml:"topic"`
 }
 
 type GDbYaml struct {
@@ -34,6 +34,4 @@ type GConfYaml struct {
 	UserName string `yaml:"username"`
 	UserPass string `yaml:"pass"`
 	DB       int    `yaml:"db"`
-}
-type GMemcacheYaml struct {
 }
