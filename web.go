@@ -5,10 +5,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func runWeb() {
+func runWeb(routerRegister func(*gin.Engine)) {
 	r := gin.New()
-
+	routerRegister(r)
 	r.Use(
 		glog.AccessLog(),
 	)
+	r.Run()
+
 }
