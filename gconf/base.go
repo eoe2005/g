@@ -1,11 +1,10 @@
 package gconf
 
 type AppConf struct {
-	Kafkas       []*GKafkaYaml    `yaml:"kafka"`
-	Dbs          []*GDbYaml       `yaml:"db"`
-	RedisCluster []*GRedisYaml    `yaml:"redis_cluter"`
-	Redis        []*GRedisYaml    `yaml:"redis"`
-	Memcache     []*GMemcacheYaml `yaml:"memcache"`
+	Kafkas   []*GKafkaYaml    `yaml:"kafka"`
+	Dbs      []*GDbYaml       `yaml:"db"`
+	Caches   []*GConfYaml     `yaml:"cache"`
+	Memcache []*GMemcacheYaml `yaml:"memcache"`
 }
 type GKafkaYaml struct {
 	Name  string `yaml:"name"`
@@ -27,7 +26,14 @@ type GDbYaml struct {
 	MaxIdleLifetime int64  `yaml:"max_idle_lifetime"`
 }
 
-type GRedisYaml struct {
+type GConfYaml struct {
+	Name     string `yaml:"name"`
+	Driver   string `yaml:"driver"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	UserName string `yaml:"username"`
+	UserPass string `yaml:"pass"`
+	DB       int    `yaml:"db"`
 }
 type GMemcacheYaml struct {
 }
