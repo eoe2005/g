@@ -7,7 +7,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-func conRedis(c *gconf.GConfYaml) *redis.Client {
+func conRedis(c *gconf.GCacheYaml) *redis.Client {
 	return redis.NewClient(&redis.Options{
 		Addr:     c.Host,
 		Username: c.UserName,
@@ -15,7 +15,7 @@ func conRedis(c *gconf.GConfYaml) *redis.Client {
 		DB:       c.DB,
 	})
 }
-func conRedisCluster(c *gconf.GConfYaml) *redis.ClusterClient {
+func conRedisCluster(c *gconf.GCacheYaml) *redis.ClusterClient {
 	return redis.NewClusterClient(&redis.ClusterOptions{
 		Addrs:    strings.Split(c.Host, ","),
 		Username: c.UserName,

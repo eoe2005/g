@@ -7,6 +7,6 @@ import (
 	"github.com/eoe2005/g/gconf"
 )
 
-func conMemcache(c *gconf.GConfYaml) *memcache.Client {
+func conMemcache(c *gconf.GCacheYaml) *memcache.Client {
 	return memcache.New(strings.Split(c.Host, ",")...)
 }

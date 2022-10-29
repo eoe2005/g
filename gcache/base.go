@@ -12,7 +12,7 @@ var (
 	_localMemcached    = map[string]*memcache.Client{}
 )
 
-func Register(cacheList []*gconf.GConfYaml) {
+func Register(cacheList []*gconf.GCacheYaml) {
 	for _, item := range cacheList {
 		switch item.Driver {
 		case "redis":

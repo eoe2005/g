@@ -1,9 +1,10 @@
 package gconf
 
 type AppConf struct {
-	Mqs    []*GMqYaml   `yaml:"mq"`
-	Dbs    []*GDbYaml   `yaml:"db"`
-	Caches []*GConfYaml `yaml:"cache"`
+	Mqs    []*GMqYaml    `yaml:"mq"`
+	Dbs    []*GDbYaml    `yaml:"db"`
+	Caches []*GCacheYaml `yaml:"cache"`
+	Cfgs   []*GCfgYaml   `yaml:"cfg"`
 }
 type GMqYaml struct {
 	Name   string `yaml:"name"`
@@ -26,7 +27,7 @@ type GDbYaml struct {
 	MaxIdleLifetime int64  `yaml:"max_idle_lifetime"`
 }
 
-type GConfYaml struct {
+type GCacheYaml struct {
 	Name     string `yaml:"name"`
 	Driver   string `yaml:"driver"`
 	Host     string `yaml:"host"`
@@ -34,4 +35,14 @@ type GConfYaml struct {
 	UserName string `yaml:"username"`
 	UserPass string `yaml:"pass"`
 	DB       int    `yaml:"db"`
+}
+
+type GCfgYaml struct {
+	Name      string `yaml:"name"`
+	Driver    string `yaml:"driver"`
+	AppID     string `yaml:"appid"`
+	Host      string `yaml:"host"`
+	UserName  string `yaml:"user"`
+	Namespace string `yaml:"namespace"`
+	Cluster   string `yaml:"cluster"`
 }
