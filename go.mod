@@ -3,9 +3,11 @@ module github.com/eoe2005/g
 go 1.17
 
 require (
+	github.com/apolloconfig/agollo/v4 v4.2.1
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/segmentio/kafka-go v0.4.36
+	go.etcd.io/etcd/client/v3 v3.5.5
 	gorm.io/driver/clickhouse v0.5.0
 	gorm.io/driver/mysql v1.4.3
 	gorm.io/driver/postgres v1.4.5
@@ -17,7 +19,6 @@ require (
 	github.com/ClickHouse/ch-go v0.48.0 // indirect
 	github.com/ClickHouse/clickhouse-go/v2 v2.3.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/apolloconfig/agollo/v4 v4.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
@@ -62,7 +63,6 @@ require (
 	github.com/subosito/gotenv v1.4.1 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.5 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.5 // indirect
-	go.etcd.io/etcd/client/v3 v3.5.5 // indirect
 	go.opentelemetry.io/otel v1.10.0 // indirect
 	go.opentelemetry.io/otel/trace v1.10.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
