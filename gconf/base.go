@@ -22,8 +22,8 @@ type GDbYaml struct {
 	Driver          string `yaml:"driver"`
 	Host            string `yaml:"host"`
 	Port            int    `yaml:"port"`
-	UserPass        string `yaml:"pass"`
-	UserName        string `yaml:"user"`
+	UserPass        string `yaml:"userpass"`
+	UserName        string `yaml:"username"`
 	DbName          string `yaml:"dbname"`
 	MaxIdleCons     int    `yaml:"max_idle_cons"`
 	MaxOpenCons     int    `yaml:"max_open_cons"`
@@ -37,7 +37,7 @@ type GCacheYaml struct {
 	Host     string `yaml:"host"`
 	Port     int    `yaml:"port"`
 	UserName string `yaml:"username"`
-	UserPass string `yaml:"pass"`
+	UserPass string `yaml:"userpass"`
 	DB       int    `yaml:"db"`
 }
 
