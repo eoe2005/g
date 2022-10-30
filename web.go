@@ -1,28 +1,30 @@
 package g
 
 import (
-	"net/http"
+	"fmt"
 
-	"github.com/eoe2005/g/gerror"
 	"github.com/eoe2005/g/glog"
 	"github.com/gin-gonic/gin"
 )
 
 func RunWeb(routerRegister func(*gin.Engine)) {
+	glog.RegisterErrorLog()
+	fmt.Printf("--++++++++++++++---\n")
 	r := gin.New()
 	routerRegister(r)
 	r.Use(
 		glog.AccessLog(),
-		func(ctx *gin.Context) {
-			defer func() {
-				err := recover()
-				switch err.(type) {
-				case gerror.JsonError:
-					ctx.JSON(http.StatusOK, err)
-				}
-			}()
-			ctx.Next()
-		},
+		// func(ctx *gin.Context) {
+		// 	defer func() {
+		// 		err := recover()
+		// 		switch err.(type) {
+		// 		case gerror.JsonError:
+		// 			ctx.JSON(http.StatusOK, err)
+		// 		}
+		// 	}()
+		// 	ctx.Next()
+		// },
+		gin.Recovery(),
 	)
-	r.Run()
+	r.Run("0.0.0.0:8888")
 }

@@ -1,14 +1,15 @@
 package glog
 
 import (
+	"fmt"
 	"os"
-
-	"github.com/gin-gonic/gin"
 )
 
-func Register(g *gin.Engine) {
+func RegisterErrorLog() {
 	ReOpenFile("error", errFd, func(fd *os.File) {
-		os.Stderr = fd
-		os.Stdout = fd
+		fmt.Printf("初始化错误日志 %v \n", fd)
+		// os.Stderr = fd
+		// os.Stdout = fd
+		fmt.Printf("初始化错误日志\n")
 	})
 }

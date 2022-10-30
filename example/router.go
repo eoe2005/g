@@ -1,4 +1,4 @@
-package example
+package main
 
 import (
 	"net/http"
@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func registerUser(rg *gin.Engine) {
+func registerRouter(rg *gin.Engine) {
 	rg.Any("/ping", func(ctx *gin.Context) {
-		ctx.Json(http.StatusOK, gin.H{
+		ctx.JSON(http.StatusOK, gin.H{
 			"ping": "ok",
 		})
 	})

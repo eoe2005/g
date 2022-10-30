@@ -18,9 +18,9 @@ func GetAppDir() string {
 }
 
 func GetAppConfFile(name string) string {
-	return GetAppDir() + "../conf/" + name + ".yaml"
+	return GetAppDir() + "/../conf/" + name + ".yaml"
 }
 
 func GetLogDir() string {
-	return GetAppDir() + "../logs/"
+	return GetAppDir() + "/../logs/"
 }

@@ -1,6 +1,7 @@
 package glog
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -20,6 +21,7 @@ func ReOpenFile(name string, oldFd *os.File, callHandel func(fd *os.File)) error
 	// os.Rename(filePath, genv.GetLogDir()+name + time.+".log")
 	nf, e := os.OpenFile(filePath, os.O_CREATE|os.O_APPEND, 0755)
 	if e != nil {
+		fmt.Printf("打开文件失败 %s\n", e.Error())
 		return e
 	}
 	if oldFd != nf && oldFd != nil {
