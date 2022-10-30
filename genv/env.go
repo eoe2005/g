@@ -17,6 +17,10 @@ func GetAppDir() string {
 	return _appDir
 }
 
+func GetAppConfFile(name string) string {
+	return GetAppDir() + "../conf/" + name + ".yaml"
+}
+
 func GetLogDir() string {
 	return GetAppDir() + "../logs/"
 }

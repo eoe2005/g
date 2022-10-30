@@ -1,5 +1,9 @@
 package gconf
 
+var (
+	localConf = AppConf{}
+)
+
 type AppConf struct {
 	Mqs    []*GMqYaml    `yaml:"mq"`
 	Dbs    []*GDbYaml    `yaml:"db"`
