@@ -1,15 +1,12 @@
 package g
 
 import (
-	"fmt"
-
 	"github.com/eoe2005/g/glog"
 	"github.com/gin-gonic/gin"
 )
 
 func RunWeb(routerRegister func(*gin.Engine)) {
-	glog.RegisterErrorLog()
-	fmt.Printf("--++++++++++++++---\n")
+	// glog.RegisterErrorLog()
 	r := gin.New()
 	routerRegister(r)
 	r.Use(
@@ -24,7 +21,7 @@ func RunWeb(routerRegister func(*gin.Engine)) {
 		// 	}()
 		// 	ctx.Next()
 		// },
-		gin.Recovery(),
+		// gin.Recovery(),
 	)
 	r.Run("0.0.0.0:8888")
 }

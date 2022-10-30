@@ -19,7 +19,7 @@ var (
 func ReOpenFile(name string, oldFd *os.File, callHandel func(fd *os.File)) error {
 	filePath := genv.GetLogDir() + name + ".log"
 	// os.Rename(filePath, genv.GetLogDir()+name + time.+".log")
-	nf, e := os.OpenFile(filePath, os.O_CREATE|os.O_APPEND, 0755)
+	nf, e := os.OpenFile(filePath, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0755)
 	if e != nil {
 		fmt.Printf("打开文件失败 %s\n", e.Error())
 		return e
