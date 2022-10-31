@@ -17,7 +17,7 @@ func (d *confCache) Set(key string, value interface{}, expireSeconds int) (err e
 //EntryCount 获取实体数量
 func (d *confCache) EntryCount() (entryCount int64) {
 	count := int64(0)
-	d.cache.Range(func(key, value interface{}) bool {
+	d.cache.Range(func(key, value any) bool {
 		count++
 		return true
 	})

@@ -8,20 +8,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Error(ctx *gin.Context, format string, args ...interface{}) {
+func Error(ctx *gin.Context, format string, args ...any) {
 	_writeLog(ctx, "ERROR", format, args...)
 }
-func Debug(ctx *gin.Context, format string, args ...interface{}) {
+func Debug(ctx *gin.Context, format string, args ...any) {
 	_writeLog(ctx, "DEBUG", format, args...)
 }
-func Info(ctx *gin.Context, format string, args ...interface{}) {
+func Info(ctx *gin.Context, format string, args ...any) {
 	_writeLog(ctx, "INFO", format, args...)
 }
-func Waring(ctx *gin.Context, format string, args ...interface{}) {
+func Waring(ctx *gin.Context, format string, args ...any) {
 	_writeLog(ctx, "WARING", format, args...)
 }
 
-func _writeLog(ctx *gin.Context, level, format string, args ...interface{}) {
+func _writeLog(ctx *gin.Context, level, format string, args ...any) {
 	msg := fmt.Sprintf(format, args...)
 	requireID := ""
 	if ctx != nil {
