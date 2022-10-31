@@ -15,6 +15,8 @@ func Register(cs []*gconf.GCfgYaml) {
 		switch c.Driver {
 		case "apollo":
 			initApollo(c)
+		case "etcd":
+			initEtcd3(c)
 		}
 	}
 }
