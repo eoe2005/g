@@ -1,7 +1,6 @@
 package glog
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -24,11 +23,8 @@ func AccessLog() gin.HandlerFunc {
 		requestID := uuid.New()
 		ctx.Set("request_id", requestID.String())
 		ctx.Set("request_start_time", currentTime)
-		fmt.Println("init1")
-		accessLog.Println("init")
 		ctx.Next()
 		accessLog.Printf(" %s %d %d %s %s\n", ctx.Request.Method, ctx.Writer.Status(), time.Now().Sub(currentTime).Milliseconds(), ctx.ClientIP(), ctx.Request.RequestURI)
-		fmt.Println("+1", accessLog)
 		ctx.Done()
 	}
 }
