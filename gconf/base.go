@@ -9,6 +9,7 @@ type AppConf struct {
 	Dbs    []*GDbYaml    `yaml:"db"`
 	Caches []*GCacheYaml `yaml:"cache"`
 	Cfgs   []*GCfgYaml   `yaml:"cfg"`
+	Mails  []*GMailYaml  `yaml:"mail"`
 }
 type GMqYaml struct {
 	Name   string `yaml:"name"`
@@ -49,4 +50,14 @@ type GCfgYaml struct {
 	UserName  string `yaml:"user"`
 	Namespace string `yaml:"namespace"`
 	Cluster   string `yaml:"cluster"`
+}
+
+type GMailYaml struct {
+	Name     string `yaml:"name"`
+	Smtp     string `yaml:"host"`
+	Prot     int    `yaml:"port"`
+	UserName string `yaml:"username"`
+	PassWord string `yaml:"password"`
+	FromName string `yaml:"fromname"`
+	IsSsl    bool   `yaml:"ssl"`
 }
