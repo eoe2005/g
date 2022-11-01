@@ -61,3 +61,8 @@ type GMailYaml struct {
 	FromName string `yaml:"fromname"`
 	IsSsl    bool   `yaml:"ssl"`
 }
+
+type GDingDingYaml struct {
+	Name  string `yaml:"name"`
+	Token string `yaml:"token"`
+}

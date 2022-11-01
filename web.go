@@ -6,6 +6,7 @@ import (
 )
 
 func RunWeb(routerRegister func(*gin.Engine)) {
+	initConfig()
 	// glog.RegisterErrorLog()
 	r := gin.New()
 
