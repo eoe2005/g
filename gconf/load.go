@@ -8,6 +8,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+func GetAooConf() AppConf {
+	return localConf
+}
 func Load(target ...interface{}) {
 	file := genv.GetAppConfFile("conf-" + genv.GetRunEnv())
 	fd, e := os.Open(file)
