@@ -72,13 +72,10 @@ type GWebYaml struct {
 	Encrypt *GWebEncryptYaml `yaml:"encrypt"`
 }
 type GWebEncryptYaml struct {
-	Name     string `yaml:"name"`
-	Driver   string `yaml:"driver"`
-	AuthKey  string `yaml:"auth_key"`
-	IsHeader string `yaml:"isheader"`
-	IsCookie string `yaml:"iscookie"`
-	SendName string `yaml:"outer_name"`
-	TimeOut  int    `yaml:"timeout"`
+	Driver     string `yaml:"driver"`
+	Key        string `yaml:"key"`
+	PublicKey  string `yaml:"public_key"`
+	PrivateKey string `yaml:"private_key"`
 }
 type GWebAuthYaml struct {
 	Name     string `yaml:"name"`

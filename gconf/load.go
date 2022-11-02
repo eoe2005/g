@@ -8,7 +8,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func GetAooConf() AppConf {
+func GetAppConf() AppConf {
 	return localConf
 }
 func Load(target ...interface{}) {
