@@ -13,14 +13,15 @@ func Register(conf *gconf.GWebYaml) {
 	if conf == nil {
 		return
 	}
-	if conf.Auth != nil {
-		h := getAuthMiddleWare(conf.Auth)
+
+	if conf.Encrypt != nil {
+		h := getEncryptMiddleWare(conf.Encrypt)
 		if h != nil {
 			mids = append(mids, h)
 		}
 	}
-	if conf.Encrypt != nil {
-		h := getEncryptMiddleWare(conf.Encrypt)
+	if conf.Auth != nil {
+		h := getAuthMiddleWare(conf.Auth)
 		if h != nil {
 			mids = append(mids, h)
 		}
