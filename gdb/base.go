@@ -25,6 +25,8 @@ func Register(dbList []*gconf.GDbYaml) {
 			con = connectSqlServer(dbConf)
 		case "clickhouse":
 			con = connectClickHouse(dbConf)
+		case "es":
+			initEs(dbConf)
 		}
 		if con != nil {
 			db, e := con.DB()
