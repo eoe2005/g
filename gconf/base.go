@@ -10,6 +10,7 @@ type AppConf struct {
 	Caches []*GCacheYaml `yaml:"cache"`
 	Cfgs   []*GCfgYaml   `yaml:"cfg"`
 	Mails  []*GMailYaml  `yaml:"mail"`
+	Web    *GWebYaml     `yaml:"web"`
 }
 type GMqYaml struct {
 	Name   string `yaml:"name"`
@@ -65,4 +66,26 @@ type GMailYaml struct {
 type GDingDingYaml struct {
 	Name  string `yaml:"name"`
 	Token string `yaml:"token"`
+}
+type GWebYaml struct {
+	Auth    *GWebAuthYaml    `'yaml:"auth"`
+	Encrypt *GWebEncryptYaml `yaml:"encrypt"`
+}
+type GWebEncryptYaml struct {
+	Name     string `yaml:"name"`
+	Driver   string `yaml:"driver"`
+	AuthKey  string `yaml:"auth_key"`
+	IsHeader string `yaml:"isheader"`
+	IsCookie string `yaml:"iscookie"`
+	SendName string `yaml:"outer_name"`
+	TimeOut  int    `yaml:"timeout"`
+}
+type GWebAuthYaml struct {
+	Name     string `yaml:"name"`
+	Driver   string `yaml:"driver"`
+	AuthKey  string `yaml:"auth_key"`
+	IsHeader string `yaml:"isheader"`
+	IsCookie string `yaml:"iscookie"`
+	SendName string `yaml:"outer_name"`
+	TimeOut  int    `yaml:"timeout"`
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/eoe2005/g/gdb"
 	"github.com/eoe2005/g/gmail"
 	"github.com/eoe2005/g/gmq"
+	"github.com/eoe2005/g/gweb"
 )
 
 func initConfig() {
@@ -16,4 +17,5 @@ func initConfig() {
 	gcache.Register(gconf.GetAooConf().Caches)
 	gconfcenter.Register(gconf.GetAooConf().Cfgs)
 	gmq.Register(gconf.GetAooConf().Mqs)
+	gweb.Register(gconf.GetAooConf().Web)
 }
