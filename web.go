@@ -17,5 +17,6 @@ func RunWeb(routerRegister func(*gin.Engine)) {
 	mids = append(mids, gin.Recovery())
 	r.Use(mids...)
 	routerRegister(r)
+
 	r.Run("0.0.0.0:8888")
 }
