@@ -13,10 +13,11 @@ type AppConf struct {
 	Web    *GWebYaml     `yaml:"web"`
 }
 type GMqYaml struct {
-	Name   string `yaml:"name"`
-	Driver string `yaml:"driver"`
-	Hosts  string `yaml:"hosts"`
-	Topic  string `yaml:"topic"`
+	Name     string `yaml:"name"`
+	Driver   string `yaml:"driver"`
+	Hosts    string `yaml:"hosts"`
+	Topic    string `yaml:"topic"`
+	RefRedis string `yaml:"ref"`
 }
 
 type GDbYaml struct {
