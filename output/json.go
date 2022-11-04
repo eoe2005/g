@@ -12,7 +12,7 @@ func JsonFail(g *gin.Context, code int, msg string) {
 		"msg":  msg,
 		"data": gin.H{},
 	})
-	g.Abort()
+	
 	g.Done()
 }
 func JsonSuccess(g *gin.Context, data interface{}) {
@@ -21,6 +21,5 @@ func JsonSuccess(g *gin.Context, data interface{}) {
 		"msg":  "success",
 		"data": data,
 	})
-	g.Abort()
 	g.Done()
 }

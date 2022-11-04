@@ -8,11 +8,34 @@ import (
 )
 
 var (
-	_localDbMap = map[string]*gorm.DB{}
+	_localDbMap  = map[string]*gorm.DB{}
+	_localDbConf = map[string]*gconf.GDbYaml{}
 )
 
 func Register(dbList []*gconf.GDbYaml) {
 	for _, dbConf := range dbList {
+		_localDbConf[dbConf.Name] = dbConf
+
+	}
+}
+
+func GetDB(key string, model ...interface{}) *gorm.DB {
+	if r, ok := _localDbMap[key]; ok {
+		if len(model) > 0 {
+			return r.Model(model[0])
+		}
+		return r
+	}
+	r := getDbCon(key)
+	if len(model) > 0 {
+		return r.Model(model[0])
+	}
+	return r
+
+}
+
+func getDbCon(name string) *gorm.DB {
+	if dbConf, ok := _localDbConf[name]; ok {
 		var con *gorm.DB
 		switch dbConf.Driver {
 		case "mysql":
@@ -31,7 +54,7 @@ func Register(dbList []*gconf.GDbYaml) {
 		if con != nil {
 			db, e := con.DB()
 			if e != nil {
-				continue
+				panic("链接数据库失败")
 			}
 			if dbConf.MaxIdleCons > 0 {
 				db.SetMaxIdleConns(dbConf.MaxIdleCons)
@@ -46,16 +69,10 @@ func Register(dbList []*gconf.GDbYaml) {
 				db.SetConnMaxIdleTime(time.Duration(dbConf.MaxIdleLifetime) * time.Second)
 			}
 			_localDbMap[dbConf.Name] = con
+			return con
+		} else {
+			panic("不支持的数据库类型")
 		}
 	}
-}
-
-func GetDB(key string, model ...interface{}) *gorm.DB {
-	if r, ok := _localDbMap[key]; ok {
-		if len(model) > 0 {
-			return r.Model(model[0])
-		}
-		return r
-	}
-	return nil
+	panic("没有配置数据库")
 }
