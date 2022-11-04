@@ -6,14 +6,15 @@ import (
 )
 
 var (
-	_localKafkaWriter = map[string]*kafka.Writer{}
+	_localKafkaWriter  = map[string]*kafka.Writer{}
+	_localKafkaConfMap = map[string]*gconf.GMqYaml{}
 )
 
 func Register(mqs []*gconf.GMqYaml) {
 	for _, c := range mqs {
 		switch c.Driver {
 		case "kafka":
-			_localKafkaWriter[c.Name] = conKafkaWrite(c)
+			_localKafkaConfMap[c.Name] = c
 		case "rabbitmq":
 		}
 	}
