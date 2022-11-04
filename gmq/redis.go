@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/eoe2005/g/gcache"
+	"github.com/eoe2005/g/gtype"
 	"github.com/go-redis/redis/v8"
 )
 
@@ -30,18 +31,20 @@ func buildRedisAfterKey(name, topic string) string {
 	return fmt.Sprintf("queue:%s:%s:after", name, topic)
 }
 func RedisPublish(name, topic string, msg ...any) {
+	// mstring := []any{}
+	// mstring = gtype.ArrAnyToString(msg)
 	getRedis(name).LPush(context.Background(), buildRedisKey(name, topic), msg...)
 }
 func RedisPublishAt(name, topic string, t time.Time, msg any) {
 	getRedis(name).ZAdd(context.Background(), buildRedisAtKey(name, topic), &redis.Z{
 		Score:  float64(t.UnixNano()),
-		Member: msg,
+		Member: gtype.AnyToString(msg),
 	})
 }
 func RedisPublishAfter(name, topic string, t time.Duration, msg any) {
 	getRedis(name).ZAdd(context.Background(), buildRedisAfterKey(name, topic), &redis.Z{
 		Score:  float64(time.Now().Add(t).UnixNano()),
-		Member: msg,
+		Member: gtype.AnyToString(msg),
 	})
 }
 
