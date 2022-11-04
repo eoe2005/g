@@ -10,18 +10,13 @@ var (
 	_localRedis        = map[string]*redis.Client{}
 	_localRedisCluster = map[string]*redis.ClusterClient{}
 	_localMemcached    = map[string]*memcache.Client{}
+
+	_localConfMap = map[string]*gconf.GCacheYaml{}
 )
 
 func Register(cacheList []*gconf.GCacheYaml) {
 	for _, item := range cacheList {
-		switch item.Driver {
-		case "redis":
-			_localRedis[item.Name] = conRedis(item)
-		case "redisCluster":
-			_localRedisCluster[item.Name] = conRedisCluster(item)
-		case "memcache":
-			_localMemcached[item.Name] = conMemcache(item)
-		}
+		_localConfMap[item.Name] = item
 	}
 }
 
@@ -29,17 +24,38 @@ func GetRedis(key string) *redis.Client {
 	if r, ok := _localRedis[key]; ok {
 		return r
 	}
+	if conf, ok := _localConfMap[key]; ok {
+		if conf.Driver == "redis" {
+			r := conRedis(conf)
+			_localRedis[key] = r
+			return r
+		}
+	}
 	panic("没有配置")
 }
 func GetRedisCluster(key string) *redis.ClusterClient {
 	if r, ok := _localRedisCluster[key]; ok {
 		return r
 	}
+	if conf, ok := _localConfMap[key]; ok {
+		if conf.Driver == "redisCluster" {
+			r := conRedisCluster(conf)
+			_localRedisCluster[key] = r
+			return r
+		}
+	}
 	panic("没有配置")
 }
 func GetMemcache(key string) *memcache.Client {
 	if r, ok := _localMemcached[key]; ok {
 		return r
+	}
+	if conf, ok := _localConfMap[key]; ok {
+		if conf.Driver == "memcache" {
+			r := conMemcache(conf)
+			_localMemcached[key] = r
+			return r
+		}
 	}
 	panic("没有配置")
 }
