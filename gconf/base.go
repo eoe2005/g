@@ -69,21 +69,19 @@ type GDingDingYaml struct {
 	Token string `yaml:"token"`
 }
 type GWebYaml struct {
-	Auth    *GWebAuthYaml    `'yaml:"auth"`
-	Encrypt *GWebEncryptYaml `yaml:"encrypt"`
+	MiddleWare []*GWebMiddleWareYaml `'yaml:"middleware"`
 }
-type GWebEncryptYaml struct {
+
+type GWebMiddleWareYaml struct {
+	Name       string `yaml:"name"`
 	Driver     string `yaml:"driver"`
-	Key        string `yaml:"key"`
-	PublicKey  string `yaml:"public_key"`
-	PrivateKey string `yaml:"private_key"`
-}
-type GWebAuthYaml struct {
-	Driver   string `yaml:"driver"`
-	AuthKey  string `yaml:"auth_key"`
-	Ref      string `yaml:"ref_redis"`
-	IsHeader bool   `yaml:"is_header"`
-	IsCookie bool   `yaml:"is_cookie"`
-	SendName string `yaml:"outer_name"`
-	TimeOut  int    `yaml:"timeout"`
+	Ref        string `yaml:"ref_redis"` // driver = session_redis | session_redis_cluster
+	AuthKey    string `yaml:"auth_key"`  // driver = gwt
+	IsHeader   bool   `yaml:"is_header"`
+	IsCookie   bool   `yaml:"is_cookie"`
+	SendName   string `yaml:"outer_name"`
+	TimeOut    int    `yaml:"timeout"`
+	Key        string `yaml:"key"`         // driver = aes
+	PublicKey  string `yaml:"public_key"`  // driver= rsa
+	PrivateKey string `yaml:"private_key"` //driver = rsa
 }

@@ -11,27 +11,16 @@ import (
 	"github.com/wumansgy/goEncrypt/aes"
 )
 
-func getAuthMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
-	switch conf.Driver {
-	case "jwt":
-		return getJwtMiddleWare(conf)
-	case "redis":
-		return getRedisMiddleWare(conf)
-	case "redis_cluster":
-		return getRedisClusterMiddleWare(conf)
-	}
-	return nil
-}
-func getJwtMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
+func initJwtMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		buildAuthMiddleWare(conf, ctx, func(s *string, sess GSession, gay *gconf.GWebAuthYaml, ctx *gin.Context) {
+		buildAuthMiddleWare(conf, ctx, func(s *string, sess GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 			if *s != "" {
 				data, err := aes.AesCbcDecryptByBase64(*s, []byte(conf.AuthKey), nil)
 				if err == nil {
 					json.Unmarshal(data, sess)
 				}
 			}
-		}, func(s *string, sess GSession, gay *gconf.GWebAuthYaml, ctx *gin.Context) {
+		}, func(s *string, sess GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 			sdm, e := json.Marshal(sess)
 			if e != nil {
 				return
@@ -46,9 +35,9 @@ func getJwtMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
 	}
 
 }
-func getRedisClusterMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
+func initRedisClusterMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		buildAuthMiddleWare(conf, ctx, func(s *string, sess GSession, gay *gconf.GWebAuthYaml, ctx *gin.Context) {
+		buildAuthMiddleWare(conf, ctx, func(s *string, sess GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 			if *s == "" {
 				*s = uuid.New().String()
 			} else {
@@ -59,7 +48,7 @@ func getRedisClusterMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
 					}
 				}
 			}
-		}, func(s *string, sess GSession, gay *gconf.GWebAuthYaml, ctx *gin.Context) {
+		}, func(s *string, sess GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 			vals := []any{}
 			for k, v := range sess {
 				vals = append(vals, k, v)
@@ -72,9 +61,9 @@ func getRedisClusterMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
 
 }
 
-func getRedisMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
+func initRedisMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		buildAuthMiddleWare(conf, ctx, func(s *string, sess GSession, gay *gconf.GWebAuthYaml, ctx *gin.Context) {
+		buildAuthMiddleWare(conf, ctx, func(s *string, sess GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 			if *s == "" {
 				*s = uuid.New().String()
 			} else {
@@ -85,7 +74,7 @@ func getRedisMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
 					}
 				}
 			}
-		}, func(s *string, sess GSession, gay *gconf.GWebAuthYaml, ctx *gin.Context) {
+		}, func(s *string, sess GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 			vals := []any{}
 			for k, v := range sess {
 				vals = append(vals, k, v)
@@ -97,7 +86,7 @@ func getRedisMiddleWare(conf *gconf.GWebAuthYaml) gin.HandlerFunc {
 	}
 }
 
-func buildAuthMiddleWare(conf *gconf.GWebAuthYaml, ctx *gin.Context, befor, after func(*string, GSession, *gconf.GWebAuthYaml, *gin.Context)) {
+func buildAuthMiddleWare(conf *gconf.GWebMiddleWareYaml, ctx *gin.Context, befor, after func(*string, GSession, *gconf.GWebMiddleWareYaml, *gin.Context)) {
 	sid := ""
 	if conf.IsHeader {
 		sid = ctx.GetHeader(conf.SendName)

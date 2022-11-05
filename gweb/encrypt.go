@@ -21,21 +21,13 @@ func (w *gineEncryptWriter) Write(b []byte) (int, error) {
 func (w *gineEncryptWriter) WriteString(s string) (int, error) {
 	return w.body.WriteString(s)
 }
-func getEncryptMiddleWare(conf *gconf.GWebEncryptYaml) gin.HandlerFunc {
-	switch conf.Driver {
-	case "aes":
-		return getAesMiddleWare(conf)
-	case "rsa":
-		return getSslMiddleWare(conf)
-	}
-	return nil
-}
-func getAesMiddleWare(conf *gconf.GWebEncryptYaml) gin.HandlerFunc {
+
+func initAesMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		resetInput(conf, ctx, func(b []byte, gey *gconf.GWebEncryptYaml) []byte {
+		resetInput(conf, ctx, func(b []byte, gey *gconf.GWebMiddleWareYaml) []byte {
 			r, _ := aes.AesCbcDecryptByBase64(string(b), []byte(gey.Key), nil)
 			return r
-		}, func(b []byte, gey *gconf.GWebEncryptYaml) string {
+		}, func(b []byte, gey *gconf.GWebMiddleWareYaml) string {
 			r, _ := aes.AesCbcEncryptBase64([]byte(b), []byte(gey.Key), nil)
 			return r
 		})
@@ -43,12 +35,12 @@ func getAesMiddleWare(conf *gconf.GWebEncryptYaml) gin.HandlerFunc {
 	}
 }
 
-func getSslMiddleWare(conf *gconf.GWebEncryptYaml) gin.HandlerFunc {
+func initRsaMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		resetInput(conf, ctx, func(b []byte, gey *gconf.GWebEncryptYaml) []byte {
+		resetInput(conf, ctx, func(b []byte, gey *gconf.GWebMiddleWareYaml) []byte {
 			r, _ := rsa.RsaDecryptByBase64(string(b), gey.PrivateKey)
 			return r
-		}, func(b []byte, gey *gconf.GWebEncryptYaml) string {
+		}, func(b []byte, gey *gconf.GWebMiddleWareYaml) string {
 			r, _ := rsa.RsaEncryptToBase64(b, gey.PublicKey)
 			return r
 		})
@@ -56,7 +48,7 @@ func getSslMiddleWare(conf *gconf.GWebEncryptYaml) gin.HandlerFunc {
 	}
 }
 
-func resetInput(conf *gconf.GWebEncryptYaml, ctx *gin.Context, before func([]byte, *gconf.GWebEncryptYaml) []byte, after func([]byte, *gconf.GWebEncryptYaml) string) {
+func resetInput(conf *gconf.GWebMiddleWareYaml, ctx *gin.Context, before func([]byte, *gconf.GWebMiddleWareYaml) []byte, after func([]byte, *gconf.GWebMiddleWareYaml) string) {
 	data, e := ioutil.ReadAll(ctx.Request.Body)
 	if e != nil {
 		idata := before(data, conf)
