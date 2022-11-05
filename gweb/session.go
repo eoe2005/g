@@ -1,7 +1,16 @@
 package gweb
 
+import "github.com/gin-gonic/gin"
+
 type GSession map[string]any
 
+func GetSession(c *gin.Context) GSession {
+	v, o := c.Get("session")
+	if o {
+		return v.(GSession)
+	}
+	return GSession{}
+}
 func (s GSession) Set(key string, val any) {
 	s[key] = val
 }
