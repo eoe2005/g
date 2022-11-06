@@ -24,13 +24,13 @@ func GetDB(key string, model ...interface{}) *gorm.DB {
 		if len(model) > 0 {
 			return r.Model(model[0])
 		}
-		return r
+		return r.Debug()
 	}
 	r := getDbCon(key)
 	if len(model) > 0 {
-		return r.Model(model[0])
+		return r.Model(model[0]).Debug()
 	}
-	return r
+	return r.Debug()
 
 }
 
