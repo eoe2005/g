@@ -112,6 +112,7 @@ func buildAuthMiddleWare(conf *gconf.GWebMiddleWareYaml, ctx *gin.Context, befor
 	after(&sid, sess, conf, ctx)
 	glog.Debug(ctx, "设置 sid %s", sid)
 	if conf.IsHeader {
+		ctx.Writer.Header().Add(conf.SendName, sid)
 		ctx.Header(conf.SendName, sid)
 	}
 	if conf.IsCookie {
