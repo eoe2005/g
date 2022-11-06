@@ -1,6 +1,8 @@
 package gweb
 
 import (
+	"fmt"
+
 	"github.com/eoe2005/g/gconf"
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +21,7 @@ func GetMiddleWareByName(name ...string) []gin.HandlerFunc {
 	return ret
 }
 func Register(confs *gconf.GWebYaml) {
+	fmt.Sprintf("conf %v \n", confs)
 	if confs == nil {
 		return
 	}

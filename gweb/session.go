@@ -1,15 +1,19 @@
 package gweb
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type GSession map[string]any
 
-func GetSession(c *gin.Context) GSession {
+func GetSession(c *gin.Context) *GSession {
 	v, o := c.Get("session")
 	if o {
-		return v.(GSession)
+		return v.(*GSession)
 	}
-	return GSession{}
+	ret := &GSession{}
+	c.Set("session", ret)
+	return ret
 }
 func (s GSession) Set(key string, val any) {
 	s[key] = val
@@ -25,8 +29,42 @@ func (s GSession) GetInt(key string, defval int64) int64 {
 	if ret == nil {
 		return defval
 	}
+
+	if r, ok := ret.(int); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(int8); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(int16); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(int32); ok {
+		return int64(r)
+	}
 	if r, ok := ret.(int64); ok {
-		return r
+		return int64(r)
+	}
+	if r, ok := ret.(uint); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint8); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint16); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint32); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint64); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(float32); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(float64); ok {
+		return int64(r)
 	}
 	return defval
 }
@@ -57,6 +95,9 @@ func (s GSession) GetFloat(key string, defval float64) float64 {
 	}
 	if r, ok := ret.(float64); ok {
 		return r
+	}
+	if r, ok := ret.(float32); ok {
+		return float64(r)
 	}
 	return defval
 }
