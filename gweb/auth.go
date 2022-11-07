@@ -1,6 +1,7 @@
 package gweb
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/url"
 	"time"
@@ -96,22 +97,30 @@ func buildAuthMiddleWare(conf *gconf.GWebMiddleWareYaml, befor, after func(*stri
 			sid, _ = url.QueryUnescape(sid)
 		}
 
-		glog.Debug(ctx, "read sid %s", sid)
+		oldWriter := ctx.Writer
+		blw := &gineEncryptWriter{body: bytes.NewBufferString(""), ResponseWriter: ctx.Writer}
+		ctx.Writer = blw
 		sess := &gSession{}
 		befor(&sid, sess, conf, ctx)
 
 		ctx.Set("session", sess)
 		ctx.Next()
 		after(&sid, sess, conf, ctx)
-		glog.Debug(ctx, "设置 sid %s", sid)
+		responseByte := blw.body.Bytes()
+
+		ctx.Writer = oldWriter
 		if conf.IsHeader {
+			glog.Debug(ctx, "set Header  %s -> %s", conf.SendName, sid)
 			ctx.Writer.Header().Add(conf.SendName, sid)
 			ctx.Header(conf.SendName, sid)
 		}
 		if conf.IsCookie {
-			glog.Debug(ctx, "设置cookie sid %s", sid)
+			glog.Debug(ctx, "设置cookie sid %s -> %s", conf.SendName, sid)
 			ctx.SetCookie(conf.SendName, sid, conf.TimeOut, "/", "", false, true)
 		}
+
+		ctx.Writer.Write(responseByte)
+
 	}
 
 }
