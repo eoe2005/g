@@ -110,12 +110,10 @@ func buildAuthMiddleWare(conf *gconf.GWebMiddleWareYaml, befor, after func(*stri
 
 		ctx.Writer = oldWriter
 		if conf.IsHeader {
-			glog.Debug(ctx, "set Header  %s -> %s", conf.SendName, sid)
 			ctx.Writer.Header().Add(conf.SendName, sid)
 			ctx.Header(conf.SendName, sid)
 		}
 		if conf.IsCookie {
-			glog.Debug(ctx, "设置cookie sid %s -> %s", conf.SendName, sid)
 			ctx.SetCookie(conf.SendName, sid, conf.TimeOut, "/", "", false, true)
 		}
 
