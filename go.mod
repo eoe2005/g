@@ -1,6 +1,6 @@
 module github.com/eoe2005/g
 
-go 1.19
+go 1.18
 
 require (
 	github.com/apolloconfig/agollo/v4 v4.2.1
