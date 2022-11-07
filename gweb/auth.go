@@ -14,7 +14,7 @@ import (
 )
 
 func initJwtMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
-	return buildAuthMiddleWare(conf, func(s *string, sess *GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
+	return buildAuthMiddleWare(conf, func(s *string, sess *gSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 		if *s != "" {
 			data, err := aes.AesCbcDecryptByBase64(*s, []byte(conf.AuthKey), nil)
 			if err == nil {
@@ -25,7 +25,7 @@ func initJwtMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 				glog.Debug(ctx, "gwt %s -> %s -> %v ", *s, string(data), *sess)
 			}
 		}
-	}, func(s *string, sess *GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
+	}, func(s *string, sess *gSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 		sdm, e := json.Marshal(sess)
 		glog.Debug(ctx, "shezhi neir %s", string(sdm))
 		if e != nil {
@@ -40,7 +40,7 @@ func initJwtMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 
 }
 func initRedisClusterMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
-	return buildAuthMiddleWare(conf, func(s *string, sess *GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
+	return buildAuthMiddleWare(conf, func(s *string, sess *gSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 		if *s == "" {
 			*s = uuid.New().String()
 		} else {
@@ -51,7 +51,7 @@ func initRedisClusterMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc 
 				}
 			}
 		}
-	}, func(s *string, sess *GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
+	}, func(s *string, sess *gSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 		vals := []any{}
 		for k, v := range *sess {
 			vals = append(vals, k, v)
@@ -63,7 +63,7 @@ func initRedisClusterMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc 
 }
 
 func initRedisMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
-	return buildAuthMiddleWare(conf, func(s *string, sess *GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
+	return buildAuthMiddleWare(conf, func(s *string, sess *gSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 		if *s == "" {
 			*s = uuid.New().String()
 		} else {
@@ -74,7 +74,7 @@ func initRedisMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 				}
 			}
 		}
-	}, func(s *string, sess *GSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
+	}, func(s *string, sess *gSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
 		vals := []any{}
 		for k, v := range *sess {
 			vals = append(vals, k, v)
@@ -85,7 +85,7 @@ func initRedisMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 
 }
 
-func buildAuthMiddleWare(conf *gconf.GWebMiddleWareYaml, befor, after func(*string, *GSession, *gconf.GWebMiddleWareYaml, *gin.Context)) gin.HandlerFunc {
+func buildAuthMiddleWare(conf *gconf.GWebMiddleWareYaml, befor, after func(*string, *gSession, *gconf.GWebMiddleWareYaml, *gin.Context)) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		sid := ""
 		if conf.IsHeader {
@@ -97,7 +97,7 @@ func buildAuthMiddleWare(conf *gconf.GWebMiddleWareYaml, befor, after func(*stri
 		}
 
 		glog.Debug(ctx, "read sid %s", sid)
-		sess := &GSession{}
+		sess := &gSession{}
 		befor(&sid, sess, conf, ctx)
 
 		ctx.Set("session", sess)
