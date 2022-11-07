@@ -4,27 +4,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GSession map[string]any
+type gSession map[string]any
 
-func GetSession(c *gin.Context) *GSession {
+func GetSession(c *gin.Context) *gSession {
 	v, o := c.Get("session")
 	if o {
-		return v.(*GSession)
+		return v.(*gSession)
 	}
-	ret := &GSession{}
+	ret := &gSession{}
 	c.Set("session", ret)
 	return ret
 }
-func (s GSession) Set(key string, val any) {
+func (s gSession) Set(key string, val any) {
 	s[key] = val
 }
-func (s GSession) Get(key string) any {
+func (s gSession) Get(key string) any {
 	if r, ok := s[key]; ok {
 		return r
 	}
 	return nil
 }
-func (s GSession) GetInt(key string, defval int64) int64 {
+func (s gSession) GetInt(key string, defval int64) int64 {
 	ret := s.Get(key)
 	if ret == nil {
 		return defval
@@ -68,7 +68,7 @@ func (s GSession) GetInt(key string, defval int64) int64 {
 	}
 	return defval
 }
-func (s GSession) GetString(key string, defval string) string {
+func (s gSession) GetString(key string, defval string) string {
 	ret := s.Get(key)
 	if ret == nil {
 		return defval
@@ -78,7 +78,7 @@ func (s GSession) GetString(key string, defval string) string {
 	}
 	return defval
 }
-func (s GSession) GetBool(key string, defval bool) bool {
+func (s gSession) GetBool(key string, defval bool) bool {
 	ret := s.Get(key)
 	if ret == nil {
 		return defval
@@ -88,7 +88,7 @@ func (s GSession) GetBool(key string, defval bool) bool {
 	}
 	return defval
 }
-func (s GSession) GetFloat(key string, defval float64) float64 {
+func (s gSession) GetFloat(key string, defval float64) float64 {
 	ret := s.Get(key)
 	if ret == nil {
 		return defval
@@ -101,6 +101,6 @@ func (s GSession) GetFloat(key string, defval float64) float64 {
 	}
 	return defval
 }
-func (s GSession) To(obj any) error {
+func (s gSession) To(obj any) error {
 	return nil
 }
