@@ -23,7 +23,6 @@ func initJwtMiddleWare(conf *gconf.GWebMiddleWareYaml) gin.HandlerFunc {
 				if ee != nil {
 					glog.Debug(ctx, "gwt %s -> %s -> %v : %s", *s, string(data), *sess, ee.Error())
 				}
-				glog.Debug(ctx, "gwt %s -> %s -> %v ", *s, string(data), *sess)
 			}
 		}
 	}, func(s *string, sess *gSession, gay *gconf.GWebMiddleWareYaml, ctx *gin.Context) {
