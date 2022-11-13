@@ -28,8 +28,6 @@ func getFieldByStruct(vv reflect.Value, fname ...string) map[string]reflect.Valu
 		for _, name := range fname {
 			if fg == name {
 				ret[name] = vv.Field(i)
-			} else {
-				ret[name] = reflect.ValueOf(nil)
 			}
 		}
 	}
