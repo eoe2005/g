@@ -12,14 +12,13 @@ func JsonFail(g *gin.Context, code int, msg string) {
 		"msg":  msg,
 		"data": gin.H{},
 	})
-	
-	g.Done()
+	// g.Done()
 }
-func JsonSuccess(g *gin.Context, data interface{}) {
+func JsonSuccess(g *gin.Context, data any) {
 	g.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  "success",
 		"data": data,
 	})
-	g.Done()
+	// g.Done()
 }

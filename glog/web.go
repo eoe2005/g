@@ -24,7 +24,7 @@ func AccessLog() gin.HandlerFunc {
 		ctx.Set("request_id", requestID.String())
 		ctx.Set("request_start_time", currentTime)
 		ctx.Next()
+		ctx.Header("request_id", requestID.String())
 		accessLog.Printf(" %s %d %d %s %s\n", ctx.Request.Method, ctx.Writer.Status(), time.Now().Sub(currentTime).Milliseconds(), ctx.ClientIP(), ctx.Request.RequestURI)
-		ctx.Done()
 	}
 }
