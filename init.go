@@ -13,6 +13,13 @@ import (
 	"github.com/eoe2005/g/gweb"
 )
 
+var (
+	localCall = []func(){}
+)
+
+func Use(call ...func()) {
+	localCall = append(localCall, call...)
+}
 func initConfig() {
 	_e := flag.String("e", "dev", "请输入运行环境")
 	flag.Parse()

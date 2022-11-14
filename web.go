@@ -14,6 +14,9 @@ func RunWeb(routerRegister func(*gin.Engine)) {
 		gin.Recovery(),
 	}
 	r.Use(mids...)
+	for _, c := range localCall {
+		c()
+	}
 	routerRegister(r)
 
 	r.Run("0.0.0.0:8888")
