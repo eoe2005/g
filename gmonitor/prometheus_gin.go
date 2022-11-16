@@ -9,7 +9,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-func Register(c *gin.Engine) {
+func RegisterGin(c *gin.Engine) {
 	// Add Go module build info.
 	localReg.MustRegister(collectors.NewBuildInfoCollector())
 	localReg.MustRegister(collectors.NewGoCollector(
