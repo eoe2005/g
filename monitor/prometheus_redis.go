@@ -8,8 +8,8 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-func NewRedisPlugin(c *redis.ClusterClient, host string) {
-	c.AddHook(&redisMetrics{Host: host})
+func NewRedisPlugin(host string) redis.Hook {
+	return &redisMetrics{Host: host}
 }
 
 type redisMetrics struct {
