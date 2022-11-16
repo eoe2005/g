@@ -1,10 +1,9 @@
-package monitor
+package gmonitor
 
 import (
 	"sync"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"gitlab.spatio-inc.com/clotho/social-base/env"
 )
 
 var (
@@ -13,7 +12,7 @@ var (
 	gaFqNameMap sync.Map
 )
 
-func EmitCounter(name string, help string, value float64, tags map[string]string) {
+func Counter(name string, help string, value float64, tags map[string]string) {
 	defer func() {
 		if err := recover(); err != nil {
 			return
@@ -28,14 +27,9 @@ func EmitCounter(name string, help string, value float64, tags map[string]string
 	tmp, ok := coFqNameMap.Load(name)
 	if !ok {
 		v := prometheus.NewCounterVec(prometheus.CounterOpts{
-			Name: name,
-			Help: help,
-			ConstLabels: map[string]string{
-				"cluster_name": env.GetClusterName(),
-				"pod_name":     env.GetPodName(),
-				"service_name": env.GetServiceName(),
-				"env":          env.GetEnv(),
-			},
+			Name:        name,
+			Help:        help,
+			ConstLabels: map[string]string{},
 		}, tagName)
 		err := localReg.Register(v)
 		if err != nil {
@@ -51,7 +45,7 @@ func EmitCounter(name string, help string, value float64, tags map[string]string
 	vec.With(tags).Add(value)
 }
 
-func EmitGauge(name string, help string, value float64, tags map[string]string) {
+func Gauge(name string, help string, value float64, tags map[string]string) {
 	defer func() {
 		if err := recover(); err != nil {
 			return
@@ -65,14 +59,9 @@ func EmitGauge(name string, help string, value float64, tags map[string]string) 
 	tmp, ok := gaFqNameMap.Load(name)
 	if !ok {
 		v := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-			Name: name,
-			Help: help,
-			ConstLabels: map[string]string{
-				"cluster_name": env.GetClusterName(),
-				"pod_name":     env.GetPodName(),
-				"service_name": env.GetServiceName(),
-				"env":          env.GetEnv(),
-			},
+			Name:        name,
+			Help:        help,
+			ConstLabels: map[string]string{},
 		}, tagName)
 		err := localReg.Register(v)
 		if err != nil {
@@ -88,7 +77,7 @@ func EmitGauge(name string, help string, value float64, tags map[string]string) 
 	vec.With(tags).Set(value)
 }
 
-func EmitHistogram(name string, help string, value float64, tags map[string]string) {
+func Histogram(name string, help string, value float64, tags map[string]string) {
 	defer func() {
 		if err := recover(); err != nil {
 			return
@@ -102,14 +91,9 @@ func EmitHistogram(name string, help string, value float64, tags map[string]stri
 	tmp, ok := gaFqNameMap.Load(name)
 	if !ok {
 		v := prometheus.NewHistogramVec(prometheus.HistogramOpts{
-			Name: name,
-			Help: help,
-			ConstLabels: map[string]string{
-				"cluster_name": env.GetClusterName(),
-				"pod_name":     env.GetPodName(),
-				"service_name": env.GetServiceName(),
-				"env":          env.GetEnv(),
-			},
+			Name:        name,
+			Help:        help,
+			ConstLabels: map[string]string{},
 		}, tagName)
 		err := localReg.Register(v)
 		if err != nil {
@@ -125,7 +109,7 @@ func EmitHistogram(name string, help string, value float64, tags map[string]stri
 	vec.With(tags).Observe(value)
 }
 
-func EmitSummary(name string, help string, value float64, tags map[string]string) {
+func Summary(name string, help string, value float64, tags map[string]string) {
 	defer func() {
 		if err := recover(); err != nil {
 			return
@@ -139,14 +123,9 @@ func EmitSummary(name string, help string, value float64, tags map[string]string
 	tmp, ok := gaFqNameMap.Load(name)
 	if !ok {
 		v := prometheus.NewSummaryVec(prometheus.SummaryOpts{
-			Name: name,
-			Help: help,
-			ConstLabels: map[string]string{
-				"cluster_name": env.GetClusterName(),
-				"pod_name":     env.GetPodName(),
-				"service_name": env.GetServiceName(),
-				"env":          env.GetEnv(),
-			},
+			Name:        name,
+			Help:        help,
+			ConstLabels: map[string]string{},
 		}, tagName)
 		err := localReg.Register(v)
 		if err != nil {

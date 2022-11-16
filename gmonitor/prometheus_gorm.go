@@ -1,4 +1,4 @@
-package monitor
+package gmonitor
 
 import (
 	"time"
@@ -76,7 +76,7 @@ func (s *gormMetrics) AfterCallback() func(db *gorm.DB) {
 			"command": opt.cmd,
 			"db_name": conf.DBName,
 		}
-		EmitCounter(MYSQL_COMMAND_METRIC_NAME, MYSQL_COMMAND_METRIC_NAME, 1, tags)
-		EmitSummary(MYSQL_COST_METRIC_NAME, MYSQL_COST_METRIC_NAME, float64(time.Now().Sub(opt.start)/time.Millisecond), tags)
+		Counter("mysql_total", "mysql_total", 1, tags)
+		Summary("mysql_cost", "mysql_cost", float64(time.Now().Sub(opt.start)), tags)
 	}
 }

@@ -1,7 +1,8 @@
-package monitor
+package gmonitor
 
 import (
 	"regexp"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/collectors"
@@ -22,4 +23,14 @@ func Register(c *gin.Engine) {
 			Registry:          localReg,
 		},
 	)))
+	c.Use(func(ctx *gin.Context) {
+		start := time.Now()
+		ctx.Next()
+		tags := map[string]string{
+			"method": ctx.Request.Method,
+			"path":   ctx.Request.URL.Path,
+		}
+		Counter("api_total", "api_total", 1, tags)
+		Summary("api_cost", "api_cost", float64(time.Now().Sub(start)), tags)
+	})
 }

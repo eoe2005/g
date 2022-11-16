@@ -1,6 +1,6 @@
 module github.com/eoe2005/g
 
-go 1.19
+go 1.18
 
 require (
 	github.com/apolloconfig/agollo/v4 v4.2.1
@@ -13,7 +13,6 @@ require (
 	github.com/prometheus/client_golang v1.14.0
 	github.com/segmentio/kafka-go v0.4.36
 	github.com/wumansgy/goEncrypt v1.1.0
-	gitlab.spatio-inc.com/clotho/social-base v0.1.7
 	go.etcd.io/etcd/client/v3 v3.5.5
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gopkg.in/yaml.v3 v3.0.1

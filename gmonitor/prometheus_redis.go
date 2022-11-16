@@ -1,4 +1,4 @@
-package monitor
+package gmonitor
 
 import (
 	"context"
@@ -26,7 +26,7 @@ func (p *redisMetrics) AfterProcess(ctx context.Context, cmd redis.Cmder) error 
 	if !e {
 		return nil
 	}
-	EmitSummary(REDIS_COST_METRIC_NAME, REDIS_COST_METRIC_NAME, float64(time.Now().Sub(st)/time.Millisecond), map[string]string{
+	Summary("redis_cost", "redis_cost", float64(time.Now().Sub(st)/time.Millisecond), map[string]string{
 		"command":   cmd.Name(),
 		"server_ip": p.Host,
 	})
@@ -47,7 +47,7 @@ func (p *redisMetrics) AfterProcessPipeline(ctx context.Context, cmds []redis.Cm
 	for _, cc := range cmds {
 		command = append(command, cc.Name())
 	}
-	EmitSummary(REDIS_COST_METRIC_NAME, REDIS_COST_METRIC_NAME, float64(time.Now().Sub(st)/time.Millisecond), map[string]string{
+	Summary("redis_cost", "redis_cost", float64(time.Now().Sub(st)/time.Millisecond), map[string]string{
 		"command":   strings.Join(command, ","),
 		"server_ip": p.Host,
 	})
