@@ -20,3 +20,8 @@ func NewMsg(cmd string, data any) *GImMessage {
 		Data: sd,
 	}
 }
+
+//绑定数据
+func (m *GImMessage) BindReq(obj any) error {
+	return json.Unmarshal(m.Data, obj)
+}
