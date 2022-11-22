@@ -24,6 +24,50 @@ func (s gSession) Get(key string) any {
 	}
 	return nil
 }
+func (s gSession) GetUInt(key string, defval uint64) uint64 {
+	ret := s.Get(key)
+	if ret == nil {
+		return defval
+	}
+
+	if r, ok := ret.(int); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(int8); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(int16); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(int32); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(int64); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint8); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint16); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint32); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint64); ok {
+		return r
+	}
+	if r, ok := ret.(float32); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(float64); ok {
+		return uint64(r)
+	}
+	return defval
+}
 func (s gSession) GetInt(key string, defval int64) int64 {
 	ret := s.Get(key)
 	if ret == nil {
