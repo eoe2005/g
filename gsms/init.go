@@ -1,17 +1,17 @@
 package gsms
 
 type GSms interface {
-	send(msg string) bool
+	send(mobile, msg string) bool
 }
 
 var (
 	_localsmsmap = map[string]GSms{}
 )
 
-func Send(confKey, msg string) bool {
+func Send(confKey, mobile, msg string) bool {
 	gs, ok := _localsmsmap[confKey]
 	if ok {
-		return gs.send(msg)
+		return gs.send(mobile, msg)
 	}
 	return false
 }
