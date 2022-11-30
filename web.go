@@ -15,7 +15,6 @@ import (
 
 func RunWeb(routerRegister func(*gin.Engine)) {
 	initConfig()
-	// glog.RegisterErrorLog()
 	r := gin.New()
 	mids := []gin.HandlerFunc{
 		glog.AccessLog(),
