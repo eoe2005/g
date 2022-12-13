@@ -1,6 +1,7 @@
 package gtemplate
 
 import (
+	"bytes"
 	"embed"
 	"fmt"
 	"html/template"
@@ -14,7 +15,9 @@ var (
 )
 
 func Fetch(tpl string, data any) string {
-	return ""
+	ret := &bytes.Buffer{}
+	_template.ExecuteTemplate(ret, tpl, data)
+	return ret.String()
 }
 
 func Register(d embed.FS) {
