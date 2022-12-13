@@ -19,5 +19,22 @@ func GetAppDir() string {
 }
 
 func GetLogDir() string {
+	if IsDebug() {
+		dir, e := os.Getwd()
+		if e != nil {
+			return "/tmp/"
+		}
+		return dir + "/outer/logs/"
+	}
 	return GetAppDir() + "/../logs/"
+}
+
+func IsDebug() bool {
+	logdir := GetAppDir() + "/../logs/"
+	f, e := os.Open(logdir)
+	if e != nil {
+		return true
+	}
+	defer f.Close()
+	return false
 }
