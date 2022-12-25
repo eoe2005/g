@@ -15,7 +15,7 @@ func RegisterGin(c *gin.Engine) {
 	localReg.MustRegister(collectors.NewGoCollector(
 		collectors.WithGoCollectorRuntimeMetrics(collectors.GoRuntimeMetricsRule{Matcher: regexp.MustCompile("/.*")}),
 	))
-	c.Any("/metrics", gin.WrapH(promhttp.HandlerFor(
+	c.GET("/metrics", gin.WrapH(promhttp.HandlerFor(
 		localReg,
 		promhttp.HandlerOpts{
 			// Opt into OpenMetrics to support exemplars.
