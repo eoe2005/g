@@ -2,9 +2,13 @@ package glog
 
 import (
 	"fmt"
+	"io/fs"
+	"io/ioutil"
 	"log"
 	"os"
+	"time"
 
+	"github.com/eoe2005/g/genv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,6 +25,11 @@ func Waring(ctx *gin.Context, format string, args ...any) {
 	_writeLog(ctx, "WARING", format, args...)
 }
 
+func saveLog(filename, data string) {
+	filePath := genv.GetLogDir() + filename + ".log"
+	data = fmt.Sprintf("%s %s\n", time.Now().Format(time.RFC3339Nano), data)
+	ioutil.WriteFile(filePath, []byte(data), fs.ModeAppend)
+}
 func _writeLog(ctx *gin.Context, level, format string, args ...any) {
 	msg := fmt.Sprintf(format, args...)
 	requireID := ""
@@ -32,5 +41,5 @@ func _writeLog(ctx *gin.Context, level, format string, args ...any) {
 			localLog = log.New(fd, "", log.Ldate|log.Ltime)
 		})
 	}
-	localLog.Printf("%s %s %s", level, requireID, msg)
+	saveLog("app", fmt.Sprintf("%s %s %s", level, requireID, msg))
 }
