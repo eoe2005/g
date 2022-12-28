@@ -2,13 +2,7 @@ package glog
 
 import (
 	"fmt"
-	"io/fs"
-	"io/ioutil"
-	"log"
-	"os"
-	"time"
 
-	"github.com/eoe2005/g/genv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,9 +20,10 @@ func Waring(ctx *gin.Context, format string, args ...any) {
 }
 
 func saveLog(filename, data string) {
-	filePath := genv.GetLogDir() + filename + ".log"
-	data = fmt.Sprintf("%s %s\n", time.Now().Format(time.RFC3339Nano), data)
-	ioutil.WriteFile(filePath, []byte(data), fs.ModeAppend)
+	// filePath := genv.GetLogDir() + filename + ".log"
+	// data = fmt.Sprintf("%s %s\n", time.Now().Format(time.RFC3339Nano), data)
+	// ioutil.WriteFile()
+	// ioutil.WriteFile(filePath, []byte(data), fs.ModePerm|fs.ModeAppend)
 }
 func _writeLog(ctx *gin.Context, level, format string, args ...any) {
 	msg := fmt.Sprintf(format, args...)
@@ -36,10 +31,10 @@ func _writeLog(ctx *gin.Context, level, format string, args ...any) {
 	if ctx != nil {
 		requireID = ctx.Value("request_id").(string)
 	}
-	if localLog == nil {
-		ReOpenFile("log", logFd, func(fd *os.File) {
-			localLog = log.New(fd, "", log.Ldate|log.Ltime)
-		})
-	}
+	// if localLog == nil {
+	// 	ReOpenFile("log", logFd, func(fd *os.File) {
+	// 		localLog = log.New(fd, "", log.Ldate|log.Ltime)
+	// 	})
+	// }
 	saveLog("app", fmt.Sprintf("%s %s %s", level, requireID, msg))
 }
