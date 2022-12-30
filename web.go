@@ -9,10 +9,7 @@ import (
 	"time"
 
 	"github.com/eoe2005/g/glog"
-<<<<<<< HEAD
-=======
 	"github.com/eoe2005/g/gmonitor"
->>>>>>> dev
 	"github.com/gin-gonic/gin"
 )
 
