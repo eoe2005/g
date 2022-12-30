@@ -1,30 +1,29 @@
 package glog
 
 import (
+	"context"
 	"fmt"
 	"log"
-
-	"github.com/gin-gonic/gin"
 )
 
 var (
 	applog = GetLog("app").NewLog("", log.LstdFlags)
 )
 
-func Error(ctx *gin.Context, format string, args ...any) {
+func Error(ctx context.Context, format string, args ...any) {
 	_writeLog(ctx, "ERROR", format, args...)
 }
-func Debug(ctx *gin.Context, format string, args ...any) {
+func Debug(ctx context.Context, format string, args ...any) {
 	_writeLog(ctx, "DEBUG", format, args...)
 }
-func Info(ctx *gin.Context, format string, args ...any) {
+func Info(ctx context.Context, format string, args ...any) {
 	_writeLog(ctx, "INFO", format, args...)
 }
-func Waring(ctx *gin.Context, format string, args ...any) {
+func Waring(ctx context.Context, format string, args ...any) {
 	_writeLog(ctx, "WARING", format, args...)
 }
 
-func _writeLog(ctx *gin.Context, level, format string, args ...any) {
+func _writeLog(ctx context.Context, level, format string, args ...any) {
 	msg := fmt.Sprintf(format, args...)
 	requireID := ""
 	if ctx != nil {

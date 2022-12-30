@@ -17,6 +17,19 @@ type AppConf struct {
 	Web     *GWebYaml       `yaml:"web"`
 	Storage []*GStorageYaml `yaml:"storage"`
 	Log     *GLogYaml       `yaml:"log"`
+	Base    []*BaseYaml     `yaml:"app"`
+	Wx      []*WxYaml       `yaml:"wx"`
+}
+type WxYaml struct {
+	Name      string `yaml:"name"`
+	AppID     string `yaml:"appid"`
+	Scope     string `yaml:"scope"`
+	AppSecret string `yaml;"secret"`
+	RetureUrl string `yaml:"return_url"`
+}
+type BaseYaml struct {
+	Name string            `yaml:"name"`
+	Data map[string]string `yaml:"data"`
 }
 type GLogYaml struct {
 	Dir         string `yaml:"log_dir"`
