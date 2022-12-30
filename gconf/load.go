@@ -9,9 +9,6 @@ var (
 	confData = map[string][]byte{}
 )
 
-func GetAppConf() AppConf {
-	return localConf
-}
 func RegisterConf(data map[string][]byte) {
 	confData = data
 }

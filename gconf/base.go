@@ -4,6 +4,10 @@ var (
 	localConf = AppConf{}
 )
 
+func GetAppConf() AppConf {
+	return localConf
+}
+
 type AppConf struct {
 	Mqs     []*GMqYaml      `yaml:"mq"`
 	Dbs     []*GDbYaml      `yaml:"db"`
@@ -12,6 +16,12 @@ type AppConf struct {
 	Mails   []*GMailYaml    `yaml:"mail"`
 	Web     *GWebYaml       `yaml:"web"`
 	Storage []*GStorageYaml `yaml:"storage"`
+	Log     *GLogYaml       `yaml:"log"`
+}
+type GLogYaml struct {
+	Dir         string `yaml:"log_dir"`
+	SplitType   string `yaml:"split_type"`
+	MaxFileSize int64  `yaml:"file_size"`
 }
 
 type GStorageYaml struct {
