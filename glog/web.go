@@ -9,6 +9,9 @@ import (
 )
 
 func AccessLog() gin.HandlerFunc {
+	errorfd := GetLog("error")
+	gin.DefaultWriter = errorfd
+	gin.DefaultErrorWriter = errorfd
 	logf := GetLog("access").NewLog("", log.LstdFlags)
 	return func(ctx *gin.Context) {
 		currentTime := time.Now()

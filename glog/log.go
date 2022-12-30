@@ -9,7 +9,6 @@ import (
 
 var (
 	applog = GetLog("app").NewLog("", log.LstdFlags)
-	errlog = GetLog("error").NewLog("", log.LstdFlags)
 )
 
 func Error(ctx *gin.Context, format string, args ...any) {

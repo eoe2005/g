@@ -84,14 +84,14 @@ func (l *Glog) Write(p []byte) (n int, err error) {
 		ctime := time.Now()
 		y, m, d := ctime.Date()
 		ct := int64(y*1000000 + int(m)*10000 + d*100 + ctime.Hour())
-		if ct >= l.lastdata {
+		if ct > l.lastdata {
 			l.reset()
 		}
 	default:
 		ctime := time.Now()
 		y, m, d := ctime.Date()
 		ct := int64(y*10000 + int(m)*100 + d)
-		if ct >= l.lastdata {
+		if ct > l.lastdata {
 			l.reset()
 		}
 	}
