@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/eoe2005/g/gconf"
+	"github.com/eoe2005/g/gmonitor"
 	"gorm.io/gorm"
 )
 
@@ -30,6 +31,7 @@ func GetDB(key string, model ...interface{}) *gorm.DB {
 	if len(model) > 0 {
 		return r.Model(model[0]).Debug()
 	}
+
 	return r.Debug()
 
 }
@@ -52,6 +54,7 @@ func getDbCon(name string) *gorm.DB {
 			initEs(dbConf)
 		}
 		if con != nil {
+			con.Use(gmonitor.NewGormPlugin(con, dbConf.Host, dbConf.DbName))
 			db, e := con.DB()
 			if e != nil {
 				panic("链接数据库失败")

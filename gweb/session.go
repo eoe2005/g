@@ -24,6 +24,93 @@ func (s gSession) Get(key string) any {
 	}
 	return nil
 }
+<<<<<<< HEAD
+func (s gSession) GetInt(key string, defval int64) int64 {
+=======
+func (s gSession) GetUInt(key string, defval uint64) uint64 {
+>>>>>>> dev
+	ret := s.Get(key)
+	if ret == nil {
+		return defval
+	}
+
+	if r, ok := ret.(int); ok {
+<<<<<<< HEAD
+		return int64(r)
+	}
+	if r, ok := ret.(int8); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(int16); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(int32); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(int64); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint8); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint16); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint32); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(uint64); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(float32); ok {
+		return int64(r)
+	}
+	if r, ok := ret.(float64); ok {
+		return int64(r)
+=======
+		return uint64(r)
+	}
+	if r, ok := ret.(int8); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(int16); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(int32); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(int64); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint8); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint16); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint32); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(uint64); ok {
+		return r
+>>>>>>> dev
+	}
+	if r, ok := ret.(float32); ok {
+		return uint64(r)
+	}
+	if r, ok := ret.(float64); ok {
+		return uint64(r)
+	}
+	return defval
+}
+<<<<<<< HEAD
+=======
 func (s gSession) GetInt(key string, defval int64) int64 {
 	ret := s.Get(key)
 	if ret == nil {
@@ -68,6 +155,7 @@ func (s gSession) GetInt(key string, defval int64) int64 {
 	}
 	return defval
 }
+>>>>>>> dev
 func (s gSession) GetString(key string, defval string) string {
 	ret := s.Get(key)
 	if ret == nil {

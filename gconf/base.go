@@ -5,12 +5,22 @@ var (
 )
 
 type AppConf struct {
-	Mqs    []*GMqYaml    `yaml:"mq"`
-	Dbs    []*GDbYaml    `yaml:"db"`
-	Caches []*GCacheYaml `yaml:"cache"`
-	Cfgs   []*GCfgYaml   `yaml:"cfg"`
-	Mails  []*GMailYaml  `yaml:"mail"`
-	Web    *GWebYaml     `yaml:"web"`
+	Mqs     []*GMqYaml      `yaml:"mq"`
+	Dbs     []*GDbYaml      `yaml:"db"`
+	Caches  []*GCacheYaml   `yaml:"cache"`
+	Cfgs    []*GCfgYaml     `yaml:"cfg"`
+	Mails   []*GMailYaml    `yaml:"mail"`
+	Web     *GWebYaml       `yaml:"web"`
+	Storage []*GStorageYaml `yaml:"storage"`
+}
+
+type GStorageYaml struct {
+	Name   string `yaml:"name"`
+	Driver string `yaml:"driver"`
+	Key    string `yaml:"key"`
+	Secret string `yaml:"secret"`
+	Bucket string `yaml:"bucket"`
+	Domain string `yaml:"domain"`
 }
 type GMqYaml struct {
 	Name     string `yaml:"name"`

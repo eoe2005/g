@@ -9,12 +9,15 @@ import (
 	"time"
 
 	"github.com/eoe2005/g/glog"
+<<<<<<< HEAD
+=======
+	"github.com/eoe2005/g/gmonitor"
+>>>>>>> dev
 	"github.com/gin-gonic/gin"
 )
 
 func RunWeb(routerRegister func(*gin.Engine)) {
 	initConfig()
-	// glog.RegisterErrorLog()
 	r := gin.New()
 	mids := []gin.HandlerFunc{
 		glog.AccessLog(),
@@ -24,6 +27,7 @@ func RunWeb(routerRegister func(*gin.Engine)) {
 	for _, c := range localCall {
 		c()
 	}
+	gmonitor.RegisterGin(r)
 	routerRegister(r)
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()

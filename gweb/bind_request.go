@@ -14,7 +14,8 @@ func BindJson(c *gin.Context, obj any) error {
 	}
 	v := reflect.ValueOf(obj).Elem().FieldByName("UserID")
 	if v.CanUint() && v.Uint() == 0 {
-		v.SetUint(uint64(GetSession(c).GetInt("userid", 0)))
+
+		v.SetUint(GetSession(c).GetUInt("userid", 0))
 	} else if v.CanInt() && v.Int() == 0 {
 		v.SetInt(GetSession(c).GetInt("userid", 0))
 	}

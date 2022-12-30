@@ -1,8 +1,7 @@
 package glog
 
 import (
-	"log"
-	"os"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -10,14 +9,7 @@ import (
 )
 
 func AccessLog() gin.HandlerFunc {
-	ReOpenFile("access", webFd, func(fd *os.File) {
-		webFd = fd
-		if accessLog == nil {
-			accessLog = log.New(fd, "HTTP:", log.Ldate|log.Ltime)
-		} else {
-			accessLog.SetOutput(fd)
-		}
-	})
+
 	return func(ctx *gin.Context) {
 		currentTime := time.Now()
 		requestID := uuid.New()
@@ -25,6 +17,8 @@ func AccessLog() gin.HandlerFunc {
 		ctx.Set("request_start_time", currentTime)
 		ctx.Next()
 		ctx.Header("request_id", requestID.String())
-		accessLog.Printf(" %s %d %d %s %s\n", ctx.Request.Method, ctx.Writer.Status(), time.Now().Sub(currentTime).Milliseconds(), ctx.ClientIP(), ctx.Request.RequestURI)
+		saveLog("access", fmt.Sprintf(" %s %d %d %s %s", ctx.Request.Method, ctx.Writer.Status(), time.Now().Sub(currentTime).Milliseconds(), ctx.ClientIP(), ctx.Request.RequestURI))
+		// accessLog.Printf(" %s %d %d %s %s\n", ctx.Request.Method, ctx.Writer.Status(), time.Now().Sub(currentTime).Milliseconds(), ctx.ClientIP(), ctx.Request.RequestURI)
+
 	}
 }

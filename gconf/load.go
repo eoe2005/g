@@ -1,28 +1,23 @@
 package gconf
 
 import (
-	"io/ioutil"
-	"os"
-
 	"github.com/eoe2005/g/genv"
 	"gopkg.in/yaml.v3"
+)
+
+var (
+	confData = map[string][]byte{}
 )
 
 func GetAppConf() AppConf {
 	return localConf
 }
+func RegisterConf(data map[string][]byte) {
+	confData = data
+}
 func Load(target ...interface{}) {
-	file := genv.GetAppConfFile("conf-" + genv.GetRunEnv())
-	fd, e := os.Open(file)
-	if e != nil {
-		panic("配置不存在")
-	}
-	defer fd.Close()
-	yamlContent, e := ioutil.ReadAll(fd)
-	if e != nil {
-		panic("读取配置错误")
-	}
-	e = yaml.Unmarshal(yamlContent, &localConf)
+	yamlContent, _ := confData[genv.GetRunEnv()]
+	e := yaml.Unmarshal(yamlContent, &localConf)
 	if e != nil {
 		panic(e)
 	}
