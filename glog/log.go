@@ -2,6 +2,7 @@ package glog
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +21,7 @@ func Waring(ctx *gin.Context, format string, args ...any) {
 }
 
 func saveLog(filename, data string) {
+	fmt.Printf("%s %s\n", time.Now().Format(time.RFC3339Nano), data)
 	// filePath := genv.GetLogDir() + filename + ".log"
 	// data = fmt.Sprintf("%s %s\n", time.Now().Format(time.RFC3339Nano), data)
 	// ioutil.WriteFile()
