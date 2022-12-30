@@ -100,6 +100,9 @@ func (l *Glog) Write(p []byte) (n int, err error) {
 	if err != nil {
 		return
 	}
-	l.lastdata += int64(n)
+	if l.splittype == SPLIT_FILESIZE {
+		l.lastdata += int64(n)
+	}
+
 	return
 }
