@@ -7,9 +7,15 @@ import (
 )
 
 var (
-	applog = GetLog("app").NewLog("", log.LstdFlags)
+	applog *log.Logger
 )
 
+func getapplog(name string) *log.Logger {
+	if applog == nil {
+		applog = GetLog(name).NewLog("", log.LstdFlags)
+	}
+	return applog
+}
 func Error(ctx context.Context, format string, args ...any) {
 	_writeLog(ctx, "ERROR", format, args...)
 }
@@ -29,5 +35,5 @@ func _writeLog(ctx context.Context, level, format string, args ...any) {
 	if ctx != nil {
 		requireID = ctx.Value("request_id").(string)
 	}
-	applog.Printf("%s %s %s", level, requireID, msg)
+	getapplog("app").Printf("%s %s %s", level, requireID, msg)
 }

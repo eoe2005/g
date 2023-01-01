@@ -8,6 +8,8 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/eoe2005/g/glog"
 )
 
 type HttResult struct {
@@ -46,17 +48,22 @@ func doSend(ctx context.Context, method, url string, timeout int, headers map[st
 	}
 	client := &http.Client{}
 	if timeout > 0 {
-		client.Timeout = time.Duration(timeout) * time.Millisecond
+		client.Timeout = time.Duration(timeout) * time.Second
 	}
+	st := time.Now()
 	rep, err := client.Do(req)
+	et := time.Now()
 	if err != nil {
+		glog.Debug(ctx, "%fs[%s]%s %s ", et.Sub(st).Seconds(), method, url, err.Error())
 		ret.Err = err
 		return ret
 	}
 	defer rep.Body.Close()
 	r, e := ioutil.ReadAll(rep.Body)
+	glog.Debug(ctx, "%fs[%s]%s -> %s ", et.Sub(st).Seconds(), method, url, string(r))
 	ret.Body = r
 	ret.Err = e
+
 	return ret
 
 }

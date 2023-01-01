@@ -7,22 +7,39 @@ import (
 	"github.com/eoe2005/g/gconf"
 )
 
+var (
+	_logMap = map[string]*Glog{}
+)
+
 func GetLog(fname string) *Glog {
+	r, ok := _logMap[fname]
+	if ok {
+		return r
+	}
 	localConf := gconf.GetAppConf()
 	if localConf.Log != nil {
 		fileName := localConf.Log.Dir + "/" + fname + ".log"
 		switch strings.ToLower(localConf.Log.SplitType) {
 		case "filesize":
-			return NewGlogFileSize(fileName, localConf.Log.MaxFileSize)
+			r = NewGlogFileSize(fileName, localConf.Log.MaxFileSize)
+			_logMap[fname] = r
+			return r
 		case "hour":
-			return NewGlogSplitHour(fileName)
+			r = NewGlogSplitHour(fileName)
+			_logMap[fname] = r
+			return r
 		default:
-			return NewGlogSplitDay(fileName)
+			r = NewGlogSplitDay(fileName)
+			_logMap[fname] = r
+			return r
+
 		}
 	}
 	dir, e := os.Getwd()
 	if e != nil {
 		dir = "/tmp"
 	}
-	return NewGlogSplitDay(dir + "/" + fname + ".log")
+	r = NewGlogSplitDay(dir + "/" + fname + ".log")
+	_logMap[fname] = r
+	return r
 }
