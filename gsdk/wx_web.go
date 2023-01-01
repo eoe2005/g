@@ -63,6 +63,7 @@ func getWxConf(name string) *gconf.WxYaml {
 	return &gconf.WxYaml{}
 }
 
+//https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
 //web 登录跳转
 func WxWebRedirect(name string) string {
 	conf := getWxConf(name)
@@ -73,6 +74,7 @@ func WxWebRedirect(name string) string {
 
 }
 
+//https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
 //微信网页板获取登录的accession token信息
 func WxWebGetAccessToken(c context.Context, name, code string) WxAccessTokenResp {
 	conf := getWxConf(name)

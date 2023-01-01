@@ -24,7 +24,7 @@ type WxYaml struct {
 	Name      string `yaml:"name"`
 	AppID     string `yaml:"appid"`
 	Scope     string `yaml:"scope"`
-	AppSecret string `yaml;"secret"`
+	AppSecret string `yaml:"secret"`
 	RetureUrl string `yaml:"return_url"`
 }
 type BaseYaml struct {
