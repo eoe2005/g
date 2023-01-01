@@ -1,6 +1,7 @@
 package glog
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -73,6 +74,9 @@ func NewGlogSplitHour(filename string) *Glog {
 
 func (l *Glog) NewLog(prefix string, flag int) *log.Logger {
 	return log.New(l, prefix, flag)
+}
+func (l *Glog) Printf(format string, data ...interface{}) {
+	l.Write([]byte(fmt.Sprintf(format, data...)))
 }
 func (l *Glog) Write(p []byte) (n int, err error) {
 	switch l.splittype {
