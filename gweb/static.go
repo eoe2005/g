@@ -7,7 +7,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func StaticFs(c *gin.Context, path, fspath string, f embed.FS) {
+//注册vue
+func StaticFsEngine(e *gin.Engine, path, fspath string, f embed.FS) {
+	e.GET(path+"/*filepath", func(ctx *gin.Context) {
+		static(ctx, path, fspath, f)
+	})
+
+}
+
+//注册vue
+func StaticFsEngineGroup(group *gin.RouterGroup, path, fspath string, f embed.FS) {
+	group.GET(path+"/*filepath", func(ctx *gin.Context) {
+		static(ctx, group.BasePath()+path, fspath, f)
+	})
+
+}
+func static(c *gin.Context, path, fspath string, f embed.FS) {
 	filename := strings.TrimLeft(c.Request.URL.Path, path+"/")
 	if filename == "" {
 		filename = "index.html"
