@@ -2,6 +2,7 @@ package gweb
 
 import (
 	"embed"
+	"fmt"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -23,13 +24,14 @@ func StaticFsEngineGroup(group *gin.RouterGroup, path, fspath string, f embed.FS
 
 }
 func static(c *gin.Context, path, fspath string, f embed.FS) {
-	filename := strings.TrimLeft(c.Request.URL.Path, path+"/")
+	filename := strings.Replace(c.Request.URL.Path, path+"/", "", 1)
 	if filename == "" {
 		filename = "index.html"
 	}
 	// fmt.Println("1", fspath+filename)
 	data, e := f.ReadFile(fspath + filename)
 	if e != nil {
+		fmt.Println(e.Error(), fspath, filename, c.Request.URL.Path, path)
 		c.Abort()
 	}
 	// fmt.Println("sendData", fspath+filename)
