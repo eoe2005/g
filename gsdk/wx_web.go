@@ -8,6 +8,7 @@ import (
 
 	"github.com/eoe2005/g/gconf"
 	"github.com/eoe2005/g/gnet"
+	"github.com/eoe2005/g/middle"
 )
 
 var (
@@ -54,7 +55,14 @@ func RegisterWxConf(lst []*gconf.WxYaml) {
 	for _, item := range lst {
 		wxconfMap[item.Name] = item
 	}
+	ctx := context.Background()
+	for name, _ := range wxconfMap {
+		WxServerTokenLoop(ctx, name, func(c context.Context, k, token string) {
+			middle.Handle(middle.WX_SERVER_TOKEN, c, k, token)
+		})
+	}
 }
+
 func getWxConf(name string) *gconf.WxYaml {
 	ret, ok := wxconfMap[name]
 	if ok {
@@ -63,8 +71,8 @@ func getWxConf(name string) *gconf.WxYaml {
 	return &gconf.WxYaml{}
 }
 
-//https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-//web 登录跳转
+// https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+// web 登录跳转
 func WxWebRedirect(name string) string {
 	conf := getWxConf(name)
 	if conf.Scope != "snsapi_userinfo" {
@@ -74,8 +82,8 @@ func WxWebRedirect(name string) string {
 
 }
 
-//https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
-//微信网页板获取登录的accession token信息
+// https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+// 微信网页板获取登录的accession token信息
 func WxWebGetAccessToken(c context.Context, name, code string) WxAccessTokenResp {
 	conf := getWxConf(name)
 	url := fmt.Sprintf("https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code", conf.AppID, conf.AppSecret, code)
@@ -93,7 +101,7 @@ func WxWebGetAccessToken(c context.Context, name, code string) WxAccessTokenResp
 	}
 }
 
-//刷线token
+// 刷线token
 func (wr WxAccessTokenResp) Refresh(c context.Context) WxWebRefreshTokenResp {
 	conf := getWxConf(wr.ConfName)
 	url := fmt.Sprintf("https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s", conf.AppID, wr.RefreshToken)
@@ -111,7 +119,7 @@ func (wr WxAccessTokenResp) Refresh(c context.Context) WxWebRefreshTokenResp {
 	}
 }
 
-//获取微信用户账号信息
+// 获取微信用户账号信息
 func WxWebGetUserInfo(c context.Context, access_token, openid string) WxWebUserInfo {
 	url := fmt.Sprintf("https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN", access_token, openid)
 	ret := gnet.Get(c, url, 3, map[string]string{})
