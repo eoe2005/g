@@ -30,7 +30,7 @@ func VueHistoryGroup(group *gin.RouterGroup, path, fspath string, f embed.FS) {
 }
 
 func _vueHistory(path, fspath string, f embed.FS, c *gin.Context) {
-	filename := strings.TrimLeft(c.Request.URL.Path, path+"/")
+	filename := strings.Replace(c.Request.URL.Path, path+"/", "", 1)
 	if filename == "" {
 		filename = "index.html"
 	}
