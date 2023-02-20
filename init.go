@@ -10,7 +10,6 @@ import (
 	"github.com/eoe2005/g/genv"
 	"github.com/eoe2005/g/gmail"
 	"github.com/eoe2005/g/gmq"
-	"github.com/eoe2005/g/gsdk"
 	"github.com/eoe2005/g/gstorage"
 	"github.com/eoe2005/g/gweb"
 )
@@ -34,5 +33,5 @@ func initConfig() {
 	gmq.Register(gconf.GetAppConf().Mqs)
 	gweb.Register(gconf.GetAppConf().Web)
 	gstorage.Register(gconf.GetAppConf().Storage)
-	gsdk.RegisterWxConf(gconf.GetAppConf().Wx)
+	// gsdk.RegisterWxConf(gconf.GetAppConf().Wx)
 }
