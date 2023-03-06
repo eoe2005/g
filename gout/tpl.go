@@ -1,4 +1,4 @@
-package output
+package gout
 
 import "github.com/gin-gonic/gin"
 

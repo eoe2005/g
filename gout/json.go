@@ -1,4 +1,4 @@
-package output
+package gout
 
 import (
 	"net/http"
@@ -27,7 +27,7 @@ func JsonSuccess(g *gin.Context, data any) {
 	// g.Done()
 }
 
-//展示html
+// 展示html
 func Display(g *gin.Context, tpl string, data any) {
 	g.Status(http.StatusOK)
 	g.Writer.WriteString(gtemplate.Fetch(tpl, data))
